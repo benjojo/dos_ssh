@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var Keyin chan string
+var Keyin chan string // Used to take keys from connections into the VNC connection
 
 func main() {
 	FrameBufferUpdate = make(chan []byte)
@@ -29,26 +29,23 @@ func ServeDOSTerm(channel ssh.Channel) {
 	MyID := randSeq(5)
 	FBIN := make(chan []byte)
 	FrameBufferSubscribers[MyID] = FBIN
-	defer delete(FrameBufferSubscribers, MyID)
+	defer delete(FrameBufferSubscribers, MyID) // Unsubscribe when dead
 	FB := make([]byte, 0)
 	for {
 		FB = <-FBIN
 		if len(FB) != 4000 {
 			continue
 		}
-		channel.Write([]byte("\x1B[0;0H")) // <ESC>[2J
+		channel.Write([]byte("\x1B[0;0H")) // Reset the cursor to 0,0
 		log.Printf("DL: %d", len(FB))
-		ptr := 0
 		outbound := ""
-		for {
+
+		ptr := 0
+		for ptr <= len(FB) {
 			outbound = outbound + VESAtoVT100(FB[ptr+1])
 			outbound = outbound + CorrectBadChars(FB[ptr])
 
 			ptr = ptr + 2
-			if ptr >= len(FB) {
-				break
-			}
-
 		}
 		_, err := channel.Write([]byte(outbound))
 		if err != nil {

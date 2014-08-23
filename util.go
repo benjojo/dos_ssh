@@ -18,7 +18,7 @@ func MessageHub(Input chan []byte, Clients map[string]chan []byte) {
 
 	for {
 		inbound := <-Input
-		for k, v := range Clients {
+		for _, v := range Clients {
 			v <- inbound
 		}
 	}
