@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/hex"
-	// "fmt"
 	"log"
 	"net"
 	"strings"
