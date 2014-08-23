@@ -11,9 +11,12 @@ import (
 var Keyin chan string // Used to take keys from connections into the VNC connection
 
 func main() {
+	// Setup the chans
 	FrameBufferUpdate = make(chan []byte)
 	Keyin = make(chan string, 100)
 	FrameBufferSubscribers = make(map[string]chan []byte)
+
+	// Start the hub that broadcasts framebuffer updates
 	go MessageHub(FrameBufferUpdate, FrameBufferSubscribers)
 
 	log.Println("Starting GDB client")
