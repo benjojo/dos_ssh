@@ -78,6 +78,7 @@ func VNCKeyIn(Presses chan string) {
 	LazyHandle(err)
 
 	for in := range Keyin {
+		// We lock here to ensure that we are not about to lock over the key input
 		Pulling.Lock()
 
 		if in == "\r" || in == "\n" { // Enter
@@ -90,6 +91,7 @@ func VNCKeyIn(Presses chan string) {
 			vncconn.KeyEvent(uint32([]byte(in)[0]), true)
 			vncconn.KeyEvent(uint32([]byte(in)[0]), false)
 		}
+		time.Sleep(time.Millisecond * 25) // Time I would take to wait for input and other stuff
 		Pulling.Unlock()
 
 	}

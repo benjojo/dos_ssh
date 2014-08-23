@@ -33,11 +33,11 @@ func Poll(nic net.Conn) {
 	SendCMD(nic, "$g#67")
 	for i := 0; i < 2; i++ {
 		if i == 0 {
-			SendCMD(nic, "$mb8000,800#5b")
+			SendCMD(nic, "$mb8000,800#5b") // BIOS Framebuffer ranges
 		} else {
-			SendCMD(nic, "$mb8800,7a0#93")
+			SendCMD(nic, "$mb8800,7a0#93") // BIOS Framebuffer ranges
 		}
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(time.Millisecond * 100) // You may be able to lower this
 	}
 	SendCMD(nic, "$k#6b")
 	Pulling.Unlock()
@@ -50,6 +50,14 @@ func SendCMD(nic net.Conn, payload string) {
 	LazyHandle(err)
 	in, err := nic.Read(buffer)
 	LazyHandle(err)
+
+	// Because I can't seem to figure out WHEN GDB is going to send stuff
+	// I have to do what you are seeing below, Because the other commands
+	// I am executing don't go above 1000 bytes output, I can presume that
+	// anything above 1000 chars is the results of my memory dump. This
+	// does mean however that we can get a out of order terminal, and that
+	// does suck, but until I can figure out how to get a consistant output
+	// it will have to stay like this.
 	if in > 1000 {
 		printtext(buffer, in)
 	}
