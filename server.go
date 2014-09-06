@@ -44,7 +44,7 @@ func ServeDOSTerm(channel ssh.Channel) {
 		outbound := ""
 
 		ptr := 0
-		for ptr <= len(FB) {
+		for ptr < len(FB) {
 			outbound = outbound + VESAtoVT100(FB[ptr+1])
 			outbound = outbound + CorrectBadChars(FB[ptr])
 
