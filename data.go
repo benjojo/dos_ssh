@@ -5,74 +5,10 @@ import (
 )
 
 func VESAtoVT100(code byte) string {
-	// Super hax lol
-	template := "\x1B["
-	out := hex.EncodeToString([]byte{code})
-	if out[:1] == "0" {
-		template = template + "40"
-	} else if out[:1] == "1" {
-		template = template + "44"
-	} else if out[:1] == "2" {
-		template = template + "42"
-	} else if out[:1] == "3" {
-		template = template + "46"
-	} else if out[:1] == "4" {
-		template = template + "41"
-	} else if out[:1] == "5" {
-		template = template + "45"
-	} else if out[:1] == "6" {
-		template = template + "43"
-	} else if out[:1] == "7" {
-		template = template + "47"
-	} else if out[:1] == "8" {
-		template = template + "40"
-	} else if out[:1] == "9" {
-		template = template + "44"
-	} else if out[:1] == "A" {
-		template = template + "42"
-	} else if out[:1] == "B" {
-		template = template + "46"
-	} else if out[:1] == "C" {
-		template = template + "41"
-	} else if out[:1] == "D" {
-		template = template + "45"
-	} else if out[:1] == "E" {
-		template = template + "43"
-	}
-
-	if out[1:] == "0" {
-		template = template + ";30"
-	} else if out[1:] == "1" {
-		template = template + ";34"
-	} else if out[1:] == "2" {
-		template = template + ";32"
-	} else if out[1:] == "3" {
-		template = template + ";36"
-	} else if out[1:] == "4" {
-		template = template + ";31"
-	} else if out[1:] == "5" {
-		template = template + ";35"
-	} else if out[1:] == "6" {
-		template = template + ";33"
-	} else if out[1:] == "7" {
-		template = template + ";37"
-	} else if out[1:] == "8" {
-		template = template + ";30"
-	} else if out[1:] == "9" {
-		template = template + ";34"
-	} else if out[1:] == "A" {
-		template = template + ";32"
-	} else if out[1:] == "B" {
-		template = template + ";36"
-	} else if out[1:] == "C" {
-		template = template + ";31"
-	} else if out[1:] == "D" {
-		template = template + ";35"
-	} else if out[1:] == "E" {
-		template = template + ";33"
-	}
-	template = template + "m"
-	return template
+	colors := []string{"0", "4", "2", "6", "1", "5", "3", "7", "0", "4", "2", "6", "1", "5", "3"}
+	bg := colors[(b&0xF0)>>8]
+	fg := colors[b&0x0F]
+	return fmt.Sprintf("\x1B[4%d;3%dm", bg, fg)
 	/*
 			Set Display Attributes
 
