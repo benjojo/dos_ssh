@@ -76,8 +76,8 @@ var fbcount int = 0
 
 func printtext(dump []byte, in int) {
 	realdata := dump[2 : in-3]
-	fuckit := strings.Split(string(realdata), "#")
-	bin, err := hex.DecodeString(string(fuckit[0]))
+	GDBSplit := strings.Split(string(realdata), "#")
+	bin, err := hex.DecodeString(string(GDBSplit[0]))
 	if err == nil {
 		for i := 0; i < len(bin); i++ {
 			gfb = append(gfb, bin[i])
