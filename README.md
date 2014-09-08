@@ -8,7 +8,7 @@ You can find a demo Youtube Video here below:
 [![Youtube Video](http://img.youtube.com/vi/2JrugnykXmg/0.jpg)](http://www.youtube.com/watch?v=2JrugnykXmg)
 
 
-howto run
+How to run
 =========
 
 * Get a DOS compatible floppy disk image (e.g. from here: http://www.allbootdisks.com/download/dos.html)
