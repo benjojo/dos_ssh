@@ -40,7 +40,6 @@ func ServeDOSTerm(channel ssh.Channel) {
 			continue
 		}
 		channel.Write([]byte("\x1B[0;0H")) // Reset the cursor to 0,0
-		log.Printf("DL: %d", len(FB))
 		outbound := ""
 
 		ptr := 0
