@@ -1,13 +1,13 @@
 package main
 
 import (
-	"encoding/hex"
+	"fmt"
 )
 
 func VESAtoVT100(code byte) string {
-	colors := []string{"0", "4", "2", "6", "1", "5", "3", "7", "0", "4", "2", "6", "1", "5", "3"}
-	bg := colors[(b&0xF0)>>8]
-	fg := colors[b&0x0F]
+	colors := []int{0, 4, 2, 6, 1, 5, 3, 7, 0, 4, 2, 6, 1, 5, 3, 7}
+	bg := colors[(code&0xF0)>>4]
+	fg := colors[code&0x0F]
 	return fmt.Sprintf("\x1B[4%d;3%dm", bg, fg)
 	/*
 			Set Display Attributes
